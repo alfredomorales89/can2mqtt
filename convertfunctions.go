@@ -263,9 +263,13 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode float2json\n")
 		}
+		ulen := len(string(payload[4:8])) + 4 
+		if ulen > 8 { 
+			ulen = 8
+		}
 		data := map[string]interface{}{ 
 			"value": math.Float32frombits(binary.LittleEndian.Uint32(payload[0:4])),
-			"unit": string(payload[4:8]),
+			"unit": string(payload[4:ulen]),
 		}
 		jsonData, err := json.Marshal(data)
 		if err != nil {
