@@ -268,6 +268,9 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 			"unit": string(payload[4:8]),
 		}
 		jsonData, err := json.Marshal(data)
+		if err != nil {
+			fmt.Printf("convertfunctions: error convertmode float2json\n")
+		}
 		return string(jsonData)
 	} else if convertMethod == "pixelbin2ascii" {
 		if dbg {
