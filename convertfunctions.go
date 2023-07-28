@@ -453,7 +453,7 @@ func float2ascii(payload []byte) string {
 	}
 	data := binary.LittleEndian.Uint32(payload)
 	float := math.Float32frombits(data)
-	return strconv.FormatFloat(float, 'f', 6, 32)
+	return strconv.FormatFloat(float64(float), 'f', 6, 32)
 }
 
 func ascii2float(payload string) []byte {
