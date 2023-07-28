@@ -252,6 +252,11 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 			fmt.Printf("convertfunctions: using convertmode 8uint82ascii\n")
 		}
 		return uint82ascii(payload[0]) + " " + uint82ascii(payload[1]) + " " + uint82ascii(payload[2]) + " " + uint82ascii(payload[3]) + " " + uint82ascii(payload[4]) + " " + uint82ascii(payload[5]) + " " + uint82ascii(payload[6]) + " " + uint82ascii(payload[7])
+	} else if convertMethod == "floatwunit2ascii" { 
+		if dbg {
+			fmt.Printf("convertfunctions: using convertmode floatwunit2ascii\n")
+		}
+		return float2ascii(payload[0:4]) + " " + bytes2ascii(uint32(length-4), payload[4:8])
 	} else if convertMethod == "pixelbin2ascii" {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode pixelbin2ascii\n")
@@ -434,6 +439,30 @@ func ascii2uint64(payload string) []byte {
 	binary.LittleEndian.PutUint64(a, number)
 	return a
 }
+
+// ########################################################################
+// ######################################################################
+// #			FLOAT2ASCII				       #
+// ######################################################################
+// float2ascii takes 4 bytes and returns a string with a numeric
+// float interpretation of the found data as ascii-string
+func float2ascii(payload []byte) string {
+	if len(payload) != 4 {
+		return "Err in CAN-Frame, data must be 4 bytes."
+	}
+	data := binary.LittleEndian.Uint32(payload)
+	float := math.Float32frombits(data)
+	return strconv.FormatFloat(float, 'f', 6, 32)
+}
+
+func ascii2float(payload string) []byte {
+	tmp, _ := strconv.ParseFloat(payload, 32)
+	number := float32(tmp)
+	a := make([]byte, 4)
+	binary.LittleEndian.PutUint32(a, math.Float32bits(number))
+	return a
+}
+
 
 // ########################################################################
 // ######################################################################
