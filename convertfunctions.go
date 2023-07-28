@@ -262,7 +262,7 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode float2json\n")
 		}
-		return '{"value":"' + float2ascii(payload[0:4]) + '",{"unit":' + string(payload[4:8]) + '}'
+		return `{"value":"` + float2ascii(payload[0:4]) + `",{"unit":` + string(payload[4:8]) + "}"
 	} else if convertMethod == "pixelbin2ascii" {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode pixelbin2ascii\n")
