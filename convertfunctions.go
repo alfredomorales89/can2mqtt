@@ -263,10 +263,9 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode float2json\n")
 		}
-
 		data := map[string]interface{}{ 
 			"value": math.Float32frombits(binary.LittleEndian.Uint32(payload[0:4])),
-			"unit": string(payload[4:8])
+			"unit": string(payload[4:8]),
 		}
 		return json.Marshal(data)
 	} else if convertMethod == "pixelbin2ascii" {
