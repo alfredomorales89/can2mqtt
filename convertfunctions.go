@@ -3,6 +3,7 @@ package can2mqtt
 import (
 	"encoding/binary"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"github.com/brutella/can"
 	"strconv"
@@ -262,7 +263,12 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode float2json\n")
 		}
-		return `{"value":` + float2ascii(payload[0:4]) + `,"unit":"` + string(payload[4:8]) + `"}`
+
+		data := map[string]interface{}{ 
+			"value": math.Float32frombits(binary.LittleEndian.Uint32(payload[0:4])),
+			"unit": string(payload[4:8])
+		}
+		return json.Marshal(data)
 	} else if convertMethod == "pixelbin2ascii" {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode pixelbin2ascii\n")
