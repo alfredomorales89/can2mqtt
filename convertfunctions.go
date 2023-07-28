@@ -7,6 +7,7 @@ import (
 	"github.com/brutella/can"
 	"strconv"
 	"strings"
+	"math"
 )
 
 // convert2CAN does the following:
@@ -256,7 +257,7 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode floatwunit2ascii\n")
 		}
-		return float2ascii(payload[0:4]) + " " + bytes2ascii(uint32(length-4), payload[4:8])
+		return float2ascii(payload[0:4]) + " " + string(payload[4:8])
 	} else if convertMethod == "pixelbin2ascii" {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode pixelbin2ascii\n")
