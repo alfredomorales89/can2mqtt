@@ -263,7 +263,7 @@ func convert2MQTT(id int, length int, payload [8]byte) string {
 		if dbg {
 			fmt.Printf("convertfunctions: using convertmode float2json\n")
 		}
-		ulen := len(string(payload[4:8])) + 4 
+		ulen := length
 		if ulen > 8 { 
 			ulen = 8
 		}
